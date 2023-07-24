@@ -106,6 +106,10 @@ contract ArchitecturalCompetition {
     // Methods
     // ========================================================================
 
+    /**
+     * submitEntry
+     * @param designUrl design URL
+     */
     function submitEntry(
         string memory designUrl
     ) public payable onlyBeforeVotingDeadline {
@@ -114,13 +118,21 @@ contract ArchitecturalCompetition {
             "Entry fee is required to participate in the competition."
         );
 
-        entries.push(Entry({
-            competitor: payable(msg.sender),
-            designUrl: designUrl,
-            voteCount: 0
-        }));
+        entries.push(
+            Entry(
+                {
+                    competitor: payable(msg.sender),
+                    designUrl: designUrl,
+                    voteCount: 0
+                }
+            )
+        );
     }
 
+    /**
+     * vote
+     * @param entryIndex entryIndex
+     */
     function vote(
         uint entryIndex
     ) public onlyBeforeVotingDeadline {
@@ -139,6 +151,9 @@ contract ArchitecturalCompetition {
         hasVoted[msg.sender] = true;
     }
 
+    /**
+     * declareWinner
+     */
     function declareWinner() public onlyOrganizer onlyAfterVotingDeadline {
         require(
             !isWinnerDeclared,
@@ -163,4 +178,5 @@ contract ArchitecturalCompetition {
         // Transfer the collected entry fees to the winner
         winner.competitor.transfer(address(this).balance);
     }
+
 }
