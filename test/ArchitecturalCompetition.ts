@@ -16,111 +16,184 @@
 // limitations under the License.
 
 
-import { ethers } from 'hardhat';
-import chai from 'chai';
-import { solidity } from 'ethereum-waffle';
-import chaiAsPromised from 'chai-as-promised';
-import { ArchitecturalCompetition } from '../typechain/ArchitecturalCompetition';
+import { ethers } from "hardhat";
+import chai from "chai";
+import { solidity } from "ethereum-waffle";
+import chaiAsPromised from "chai-as-promised";
+import { ArchitecturalCompetition } from "../typechain/ArchitecturalCompetition";
+
 
 chai.use(solidity);
 chai.use(chaiAsPromised);
+
+
 const { expect } = chai;
 
+
 // This suite tests the functionality of the ArchitecturalCompetition contract
-describe('ArchitecturalCompetition', () => {
-  let competition: ArchitecturalCompetition;
-  
-  // Entry fee is 1 ether
-  const entryFee = ethers.utils.parseEther('1'); 
-  // Voting duration is set to 7 days
-  const votingDurationInDays = 7; 
+describe("ArchitecturalCompetition", () => {
 
-  // Before each test, a new instance of the ArchitecturalCompetition contract is deployed
-  beforeEach(async () => {
-    const CompetitionFactory = await ethers.getContractFactory('ArchitecturalCompetition');
-    competition = (await CompetitionFactory.deploy(entryFee, votingDurationInDays)) as ArchitecturalCompetition;
-    await competition.deployed();
-  });
+    let competition: ArchitecturalCompetition;
+    
+    // Entry fee is 1 ether
+    const entryFee = ethers.utils.parseEther("1");
 
-  // This test ensures that the contract is deployed properly
-  it('Should be deployed properly', async () => {
-    expect(competition.address).to.properAddress;
-  });
+    // Voting duration is set to 7 days
+    const votingDurationInDays = 7; 
 
-  // This test verifies that a competitor can submit an entry with the valid fee
-  it('Should allow entry submission with valid fee', async () => {
-    const [_, competitor] = await ethers.getSigners();
-    await expect(
-      competition.connect(competitor).submitEntry('https://design.com/entry1', { value: entryFee })
-    ).to.not.be.reverted;
-  });
+    // Before each test, a new instance of the ArchitecturalCompetition 
+    // contract is deployed
+    beforeEach(async () => {
+        const CompetitionFactory = await ethers.getContractFactory(
+            "ArchitecturalCompetition"
+        );
+        competition = (await CompetitionFactory.deploy(
+        entryFee, votingDurationInDays)) as ArchitecturalCompetition;
+        await competition.deployed();
+    });
 
-  // This test verifies that a competitor cannot submit an entry with an insufficient fee
-  it('Should reject entry submission with insufficient fee', async () => {
-    const [_, competitor] = await ethers.getSigners();
-    const insufficientFee = ethers.utils.parseEther('0.5'); // 0.5 ether
-    await expect(
-      competition.connect(competitor).submitEntry('https://design.com/entry1', { value: insufficientFee })
-    ).to.be.revertedWith('Entry fee is required to participate in the competition.');
-  });
+    // This test ensures that the contract is deployed properly
+    it("Should be deployed properly", async () => {
+        expect(competition.address).to.properAddress;
+    });
 
-  // This test ensures that voting is allowed before the voting deadline
-  it('Should allow voting before deadline', async () => {
-    const [_, voter, competitor] = await ethers.getSigners();
-    await competition.connect(competitor).submitEntry('https://design.com/entry1', { value: entryFee });
-    await expect(competition.connect(voter).vote(0)).to.not.be.reverted;
-  });
+    // This test verifies that a competitor can submit an entry with the valid
+    // fee
+    it("Should allow entry submission with valid fee", async () => {
 
-  // This test checks that voting is not allowed after the voting deadline
-  it('Should not allow voting after deadline', async () => {
-    const [_, voter, competitor] = await ethers.getSigners();
-    await competition.connect(competitor).submitEntry('https://design.com/entry1', { value: entryFee });
+        const [_, competitor] = await ethers.getSigners();
+        await expect(
+            competition.connect(competitor).submitEntry(
+                "https://design.com/entry1",
+                { value: entryFee }
+            )
+        ).to.not.be.reverted;
 
-    // fast-forward past the voting deadline
-    await ethers.provider.send('evm_increaseTime', [votingDurationInDays * 24 * 60 * 60]);
-    await ethers.provider.send('evm_mine', []);
+    });
 
-    await expect(competition.connect(voter).vote(0)).to.be.revertedWith(
-      "This action can't be performed after the voting deadline."
-    );
-  });
+    // This test verifies that a competitor cannot submit an entry with an
+    // insufficient fee
+    it("Should reject entry submission with insufficient fee", async () => {
 
-  // This test ensures that the winner cannot be declared before the voting deadline
-  it('Should not allow declaring the winner before deadline', async () => {
-    const [organizer] = await ethers.getSigners();
-    await expect(competition.connect(organizer).declareWinner()).to.be.revertedWith(
-      "This action can only be performed after the voting deadline."
-    );
-  });
+        const [_, competitor] = await ethers.getSigners();
 
-  // This test checks that the winner can be declared after the voting deadline
-  it('Should allow declaring the winner after deadline', async () => {
-    const [organizer, competitor] = await ethers.getSigners();
-    await competition.connect(competitor).submitEntry('https://design.com/entry1', { value: entryFee });
+        const insufficientFee = ethers.utils.parseEther("0.5"); // 0.5 ether
 
-    // fast-forward past the voting deadline
-    await ethers.provider.send('evm_increaseTime', [votingDurationInDays * 24 * 60 * 60]);
-    await ethers.provider.send('evm_mine', []);
+        await expect(
+            competition.connect(competitor).submitEntry(
+                "https://design.com/entry1",
+                { value: insufficientFee }
+            )
+        ).to.be.revertedWith(
+            "Entry fee is required to participate in the competition."
+        );
 
-    await expect(competition.connect(organizer).declareWinner()).to.emit(competition, 'WinnerDeclared');
-  });
+    });
 
-  // This test ensures that the winner can not be declared more than once
-  it('Should not allow declaring the winner more than once', async () => {
-    const [organizer, competitor] = await ethers.getSigners();
-    await competition.connect(competitor).submitEntry('https://design.com/entry1', { value: entryFee });
+    // This test ensures that voting is allowed before the voting deadline
+    it("Should allow voting before deadline", async () => {
 
-    // fast-forward past the voting deadline
-    await ethers.provider.send('evm_increaseTime', [votingDurationInDays * 24 * 60 * 60]);
-    await ethers.provider.send('evm_mine', []);
+        const [_, voter, competitor] = await ethers.getSigners();
 
-    await competition.connect(organizer).declareWinner();
+        await competition.connect(competitor).submitEntry(
+            "https://design.com/entry1",
+            { value: entryFee }
+        );
 
-    await expect(competition.connect(organizer).declareWinner()).to.be.revertedWith(
-      'Winner has already been declared.'
-    );
-  });
+        await expect(competition.connect(voter).vote(0)).to.not.be.reverted;
 
-  // More tests can be added as needed
+    });
+
+    // This test checks that voting is not allowed after the voting deadline
+    it("Should not allow voting after deadline", async () => {
+
+        const [_, voter, competitor] = await ethers.getSigners();
+
+        await competition.connect(competitor).submitEntry(
+            "https://design.com/entry1",
+            { value: entryFee }
+        );
+
+        // fast-forward past the voting deadline
+        await ethers.provider.send(
+            "evm_increaseTime",
+            [votingDurationInDays * 24 * 60 * 60]
+        );
+
+        await ethers.provider.send("evm_mine", []);
+
+        await expect(competition.connect(voter).vote(0)).to.be.revertedWith(
+            "This action can't be performed after the voting deadline."
+        );
+
+    });
+
+    // This test ensures that the winner cannot be declared before the
+    // voting deadline
+    it("Should not allow declaring the winner before deadline", async () => {
+
+        const [organizer] = await ethers.getSigners();
+
+        await expect(
+            competition.connect(organizer).declareWinner()
+        ).to.be.revertedWith(
+            "This action can only be performed after the voting deadline."
+        );
+
+    });
+
+    // This test checks that the winner can be declared after the voting 
+    // deadline
+    it("Should allow declaring the winner after deadline", async () => {
+
+        const [organizer, competitor] = await ethers.getSigners();
+
+        await competition.connect(competitor).submitEntry(
+            "https://design.com/entry1",
+            { value: entryFee }
+        );
+
+        // fast-forward past the voting deadline
+        await ethers.provider.send(
+            "evm_increaseTime",
+            [votingDurationInDays * 24 * 60 * 60]
+        );
+
+        await ethers.provider.send("evm_mine", []);
+
+        await expect(competition.connect(organizer).declareWinner()).to.emit(
+            competition,
+            "WinnerDeclared"
+        );
+
+    });
+
+    // This test ensures that the winner can not be declared more than once
+    it("Should not allow declaring the winner more than once", async () => {
+
+        const [organizer, competitor] = await ethers.getSigners();
+
+        await competition.connect(competitor).submitEntry(
+            "https://design.com/entry1",
+            { value: entryFee }
+        );
+
+        // fast-forward past the voting deadline
+        await ethers.provider.send(
+            "evm_increaseTime",
+            [votingDurationInDays * 24 * 60 * 60]
+        );
+
+        await ethers.provider.send("evm_mine", []);
+
+        await competition.connect(organizer).declareWinner();
+
+        await expect(
+            competition.connect(organizer).declareWinner()
+        ).to.be.revertedWith(
+            "Winner has already been declared."
+        );
+
+    });
 
 });
