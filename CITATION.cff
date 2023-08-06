@@ -1,11 +1,14 @@
 cff-version: 1.2.0
-title: solidity-architecture-competition
+title: "Solidity - Decentralized Architectural Competition"
+abstract: "This project is an innovative endeavor that employs the capabilities of blockchain technology to administer an architectural design competition, serving as a prototype of a transparent, secure, and accessible platform. It leverages the smart contract to handle competition entries, voting, and winner declaration."
 version: 0.0.1
-date-released: 2023-07-01
+license: "Apache-2.0"
+doi: "Insert the DOI here if available"
+date-released: "2023-07-24"
 url: "https://github.com/block-foundation/solidity-architecture-competition"
 message: >-
-  If you use this software, please cite it using
-  the metadata from this file.
+  "If you use this software, please cite it using
+  the metadata from this file."
 type: software
 authors:
   - given-names: Lars Bastiaan
@@ -13,3 +16,8 @@ authors:
     email: lars@blockfoundation.io
     affiliation: Block Foundation
     orcid: "https://orcid.org/0000-0002-8790-8630"
+keywords:
+  - "blockchain"
+  - "smart contracts"
+  - "architectural design"
+  - "decentralized systems"
