@@ -49,21 +49,19 @@
 
 </div>
 
+**The "Decentralized Architectural Competition" employs the capabilities of blockchain technology to administer an architectural design competition.**
+
 ## Introduction
 
-Welcome to the Decentralized Architectural Competition project! This groundbreaking initiative embraces the power of blockchain technology to facilitate an architectural design competition, offering a transparent, secure, and inclusive platform.
+The smart contract permits the handling of competition entries, voting, and the announcement of the victor. This underscores how conventional architectural competitions can be reformed by incorporating blockchain technology, thereby resulting in a system that offers unalterable, secure, and decentralized processes for both the administrators and contestants.
 
-The project leverages Ethereum's and Algorand's smart contracts to handle competition entries, voting, and declaration of the winner. It demonstrates how traditional architectural competitions can be transformed using blockchain technology, which ensures an immutable, secure, and decentralized system for both the organizers and the participants.
+In this construct, participants interact with the smart contract to submit their architectural design, which also necessitates an entry fee payment, thereby establishing their effective registration in the contest. The blockchain stores all entries, thus assuring their immutable nature and transparency.
 
-In our system, each participant submits their architectural design by interacting with the smart contract, which also requires them to pay an entry fee, thereby effectively registering them for the competition. Participants' entries are stored on the blockchain, ensuring their immutability and transparency.
+Voting is conducted via the smart contract as well, facilitating a transparent vote count for each submission. The system has been devised in such a manner that each participant is permitted a single vote, and voting is restricted after a predetermined deadline.
 
-Voting is also carried out through the smart contract, allowing a transparent tally of votes for each entry. The system is designed such that each participant gets one vote, and they cannot vote after a pre-specified deadline.
+It further includes an automated reward distribution system. Upon reaching the voting deadline and after the vote count, the prize money, which is an accumulation of the entry fees, is automatically transferred to the winner's account. This mechanism ensures an immediate reward distribution system.
 
-Moreover, our project also includes an automatic prize distribution system. Once the voting deadline has been reached and votes are tallied, the prize money (accumulated from entry fees) is automatically transferred to the winner's account, ensuring a prompt reward system.
-
-This project is a showcase of how we can harness blockchain's potential to transform various sectors, including architecture and design. The system's fairness, transparency, and security make it an exciting development for future architectural competitions, where decentralized systems can pave the way for global participation and unbiased results.
-
-The following sections will delve deeper into the technicalities of our Ethereum and Algorand smart contracts, providing a comprehensive understanding of the project's inner workings. Join us in revolutionizing architectural competitions!
+This project serves as a testament to how blockchain technology can be employed to transform multiple sectors, including architectural design. The fairness, transparency, and security of the system make it an intriguing development in the realm of architectural competitions. Such decentralized systems can foster global participation and unbiased outcomes.
 
 ## Quick Start
 
