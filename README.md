@@ -36,7 +36,7 @@
 
 </div>
 
-**The "Decentralized Architectural Competition" employs the capabilities of blockchain technology to administer an architectural design competition.**
+**Welcome to the Decentralized Architectural Competition project, a smart contract that integrates the robustness of blockchain technology to administer an architectural design competition.**
 
 ## Introduction
 
@@ -49,6 +49,53 @@ Voting is conducted via the smart contract as well, facilitating a transparent v
 It further includes an automated reward distribution system. Upon reaching the voting deadline and after the vote count, the prize money, which is an accumulation of the entry fees, is automatically transferred to the winner's account. This mechanism ensures an immediate reward distribution system.
 
 This project serves as a testament to how blockchain technology can be employed to transform multiple sectors, including architectural design. The fairness, transparency, and security of the system make it an intriguing development in the realm of architectural competitions. Such decentralized systems can foster global participation and unbiased outcomes.
+
+## Features
+
+- **Immutable Entries**: Each participant submits their design via the smart contract. The entries, stored on the blockchain, ensure immutability and transparency.
+- **Transparent Voting**: Voting happens through the smart contract. Each participant gets one vote and cannot vote post the pre-specified deadline.
+- **Automatic Prize Distribution**: Once the voting ends, the prize money, accumulated from the entry fees, is auto-transferred to the winner's account, ensuring swift and fair reward distribution.
+
+## Getting Started
+
+### Prerequisites
+
+- Install [Node.js](https://nodejs.org/)
+- Install [Ethereum's development framework, Truffle](https://www.trufflesuite.com/)
+
+### Installation
+
+1. Clone the repository:
+
+``` bash
+git clone https://github.com/yourGitHubUsername/DecentralizedArchitecturalCompetition.git
+```
+
+2. Change into the project directory:
+
+``` bash
+cd DecentralizedArchitecturalCompetition
+```
+
+3. Install dependencies:
+
+``` bash
+npm install
+```
+
+### Deployment
+
+1. Compile the smart contract:
+
+``` bash
+truffle compile
+```
+
+2. Deploy the smart contract:
+
+```bash
+truffle migrate --network yourPreferredNetwork
+```
 
 ## Quick Start
 
@@ -72,7 +119,6 @@ The organizer can select the winner using the selectWinner function. They can on
 When the winner is selected, all the entry fees collected are transferred to the winner.
 This is a basic contract. If you need a more complex or specific functionality, please provide additional details.
 
-
 The smart contract includes functionality for:
 
 - A voting mechanism where participants can vote on entries.
@@ -90,8 +136,7 @@ In this contract:
 - The winner is  declared based on voting, rather than being chosen by the organizer.
 - All entry fees collected are transferred to the winner after they have been declared.
 
-*Please note that this is still a basic example and real-world contracts would likely need additional functionality, such as more complex voting mechanisms, additional security measures, handling of ties, and more. This code has not been audited and is not recommended for use in production without further modifications and testing.*
-
+_Please note that this is still a basic example and real-world contracts would likely need additional functionality, such as more complex voting mechanisms, additional security measures, handling of ties, and more. This code has not been audited and is not recommended for use in production without further modifications and testing._
 
 ## Development Resources
 
@@ -110,7 +155,6 @@ In this contract:
 | **Rent-to-Own**                   | [**>>>**](https://github.com/block-foundation/solidity-rent-to-own) | [**>>>**](https://github.com/block-foundation/teal-rent-to-own) |
 | **Self-Owning Building**          | [**>>>**](https://github.com/block-foundation/solidity-self-owning-building) | [**>>>**](https://github.com/block-foundation/teal-self-owning-building) |
 | **Smart Home**                    | [**>>>**](https://github.com/block-foundation/solidity-smart-home) | [**>>>**](https://github.com/block-foundation/teal-smart-home) |
-
 
 ---
 
